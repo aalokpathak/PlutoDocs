@@ -1,0 +1,414 @@
+@import "tailwindcss";
+@import "./styles/document.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------ tokens
+   Fluent-inspired semantic tokens. Components only use these, so light/dark
+   switch by flipping the `.dark` class on <html>. The accent hue is set at
+   runtime through --pd-accent-h/s/l (Settings -> Accent colour). */
+:root {
+  --pd-accent-rgb: 99 102 241;
+  --pd-app-bg: #eceef4;
+  --pd-chrome: rgba(243, 244, 249, 0.86);
+  --pd-content: #e6e8ef;
+  --pd-layer: rgba(255, 255, 255, 0.74);
+  --pd-layer-solid: #ffffff;
+  --pd-layer-alt: rgba(255, 255, 255, 0.5);
+  --pd-hover: rgba(0, 0, 0, 0.045);
+  --pd-pressed: rgba(0, 0, 0, 0.075);
+  --pd-stroke: rgba(0, 0, 0, 0.08);
+  --pd-stroke-strong: rgba(0, 0, 0, 0.14);
+  --pd-fg: #1b1c22;
+  --pd-fg-2: rgba(27, 28, 34, 0.68);
+  --pd-fg-3: rgba(27, 28, 34, 0.5);
+  --pd-accent: rgb(var(--pd-accent-rgb));
+  --pd-accent-hover: color-mix(in srgb, var(--pd-accent) 86%, black);
+  --pd-accent-soft: rgb(var(--pd-accent-rgb) / 0.12);
+  --pd-accent-fg: #ffffff;
+  --pd-success: #138a4c;
+  --pd-warning: #b86e00;
+  --pd-danger: #c8303f;
+  --pd-paper: #ffffff;
+  --pd-ink: #1f2026;
+  --pd-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px -12px rgba(30, 40, 80, 0.18);
+  --pd-shadow-lg: 0 24px 64px -16px rgba(20, 24, 50, 0.34), 0 2px 6px rgba(0, 0, 0, 0.06);
+  --pd-paper-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.06), 0 18px 48px -18px rgba(25, 30, 60, 0.32);
+  color-scheme: light;
+}
+
+.dark {
+  --pd-app-bg: #15161b;
+  --pd-chrome: rgba(29, 30, 37, 0.84);
+  --pd-content: #1b1c22;
+  --pd-layer: rgba(255, 255, 255, 0.055);
+  --pd-layer-solid: #26272f;
+  --pd-layer-alt: rgba(255, 255, 255, 0.03);
+  --pd-hover: rgba(255, 255, 255, 0.065);
+  --pd-pressed: rgba(255, 255, 255, 0.1);
+  --pd-stroke: rgba(255, 255, 255, 0.08);
+  --pd-stroke-strong: rgba(255, 255, 255, 0.15);
+  --pd-fg: #f1f2f6;
+  --pd-fg-2: rgba(241, 242, 246, 0.72);
+  --pd-fg-3: rgba(241, 242, 246, 0.48);
+  --pd-accent: color-mix(in srgb, rgb(var(--pd-accent-rgb)) 72%, white);
+  --pd-accent-hover: color-mix(in srgb, rgb(var(--pd-accent-rgb)) 60%, white);
+  --pd-accent-soft: rgb(var(--pd-accent-rgb) / 0.2);
+  --pd-accent-fg: #0f1124;
+  --pd-success: #4ad18c;
+  --pd-warning: #f5b544;
+  --pd-danger: #ff6b78;
+  --pd-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.55);
+  --pd-shadow-lg: 0 24px 64px -16px rgba(0, 0, 0, 0.75), 0 2px 6px rgba(0, 0, 0, 0.3);
+  --pd-paper-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 2px 6px rgba(0, 0, 0, 0.35), 0 18px 48px -18px rgba(0, 0, 0, 0.8);
+  color-scheme: dark;
+}
+
+/* Optional dark paper ("View -> Dark page"). */
+.dark.paper-dark {
+  --pd-paper: #23242b;
+  --pd-ink: #e9eaf0;
+}
+
+/* Under the Windows 11 Mica backdrop, chrome surfaces become see-through. */
+.mica {
+  --pd-chrome: transparent;
+  --pd-content: rgba(230, 232, 240, 0.62);
+}
+.dark.mica {
+  --pd-content: rgba(24, 25, 31, 0.55);
+}
+
+@theme inline {
+  --font-sans: "Segoe UI Variable Text", "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-display: "Segoe UI Variable Display", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Cascadia Mono", "Cascadia Code", Consolas, monospace;
+
+  --color-app: var(--pd-app-bg);
+  --color-chrome: var(--pd-chrome);
+  --color-content: var(--pd-content);
+  --color-layer: var(--pd-layer);
+  --color-layer-solid: var(--pd-layer-solid);
+  --color-layer-alt: var(--pd-layer-alt);
+  --color-hover: var(--pd-hover);
+  --color-pressed: var(--pd-pressed);
+  --color-stroke: var(--pd-stroke);
+  --color-stroke-strong: var(--pd-stroke-strong);
+  --color-fg: var(--pd-fg);
+  --color-fg-2: var(--pd-fg-2);
+  --color-fg-3: var(--pd-fg-3);
+  --color-accent: var(--pd-accent);
+  --color-accent-hover: var(--pd-accent-hover);
+  --color-accent-soft: var(--pd-accent-soft);
+  --color-accent-fg: var(--pd-accent-fg);
+  --color-success: var(--pd-success);
+  --color-warning: var(--pd-warning);
+  --color-danger: var(--pd-danger);
+  --color-paper: var(--pd-paper);
+  --color-ink: var(--pd-ink);
+
+  --shadow-card: var(--pd-shadow);
+  --shadow-float: var(--pd-shadow-lg);
+  --shadow-paper: var(--pd-paper-shadow);
+
+  --animate-fade-in: fade-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-pop-in: pop-in 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-slide-in: slide-in 240ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pop-in {
+    from { opacity: 0; transform: scale(0.97); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes slide-in {
+    from { opacity: 0; transform: translateX(-8px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+}
+
+/* ------------------------------------------------------------------ base */
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(1100px 650px at 0% 0%, rgb(var(--pd-accent-rgb) / 0.1), transparent 60%),
+    radial-gradient(900px 600px at 100% 100%, rgb(168 85 247 / 0.07), transparent 60%),
+    var(--pd-app-bg);
+  color: var(--pd-fg);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  overflow: hidden;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+/* With Mica the OS paints the backdrop; the webview must stay transparent. */
+html.mica body {
+  background: transparent;
+}
+
+#print-root {
+  display: none;
+}
+
+::selection {
+  background: rgb(var(--pd-accent-rgb) / 0.22);
+}
+
+input,
+textarea,
+[contenteditable="true"] {
+  user-select: text;
+}
+
+:focus-visible {
+  outline: 2px solid var(--pd-accent);
+  outline-offset: 1px;
+  border-radius: 4px;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--pd-stroke-strong) transparent;
+}
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--pd-stroke-strong);
+  border-radius: 999px;
+  border: 4px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--pd-fg-3);
+}
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+@layer components {
+  .glass {
+    background: var(--pd-layer);
+    border: 1px solid var(--pd-stroke);
+    box-shadow: var(--pd-shadow);
+    backdrop-filter: blur(24px) saturate(1.5);
+  }
+  .glass-strong {
+    background: color-mix(in srgb, var(--pd-layer-solid) 88%, transparent);
+    border: 1px solid var(--pd-stroke);
+    box-shadow: var(--pd-shadow-lg);
+    backdrop-filter: blur(30px) saturate(1.6);
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------ editor-only */
+.pluto-editor .ProseMirror {
+  outline: none;
+  min-height: 100%;
+  caret-color: rgb(var(--pd-accent-rgb));
+}
+.pluto-editor .ProseMirror p.is-editor-empty:first-child::before,
+.pluto-editor .ProseMirror .is-empty.is-editor-empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  color: color-mix(in srgb, var(--pd-ink) 38%, transparent);
+}
+.pluto-editor .page-break {
+  border-top: 1px dashed color-mix(in srgb, var(--pd-ink) 28%, transparent);
+  border-bottom: none;
+}
+.pluto-editor .page-break::after {
+  content: "Page break";
+  position: absolute;
+  left: 50%;
+  top: -0.75em;
+  transform: translateX(-50%);
+  background: var(--pd-paper);
+  padding: 0 0.7em;
+  font: 500 10px/1.5 var(--font-sans);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--pd-ink) 45%, transparent);
+}
+.pluto-editor .ProseMirror-selectednode.page-break {
+  border-top-color: rgb(var(--pd-accent-rgb));
+}
+.pluto-editor .ProseMirror-selectednode:not(.node-image):not(.page-break) {
+  outline: 2px solid rgb(var(--pd-accent-rgb) / 0.6);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.pluto-editor .ProseMirror-gapcursor::after {
+  border-top-color: rgb(var(--pd-accent-rgb));
+}
+
+/* Tables */
+.pluto-editor .tableWrapper {
+  overflow-x: auto;
+  margin: 0.9em 0;
+}
+.pluto-editor .tableWrapper table {
+  margin: 0;
+}
+.pluto-editor .selectedCell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgb(var(--pd-accent-rgb) / 0.14);
+  pointer-events: none;
+  z-index: 2;
+}
+.pluto-editor .column-resize-handle {
+  position: absolute;
+  right: -2px;
+  top: 0;
+  bottom: -2px;
+  width: 4px;
+  background: rgb(var(--pd-accent-rgb));
+  pointer-events: none;
+  z-index: 3;
+}
+.pluto-editor.resize-cursor,
+.pluto-editor .resize-cursor {
+  cursor: col-resize;
+}
+
+/* Find & replace highlights */
+.pluto-editor .search-match {
+  background: rgba(250, 204, 21, 0.45);
+  border-radius: 2px;
+}
+.pluto-editor .search-match-current {
+  background: rgba(249, 115, 22, 0.65);
+  box-shadow: 0 0 0 1px rgba(234, 88, 12, 0.8);
+}
+
+/* Images */
+.image-view {
+  position: relative;
+  line-height: 0;
+  margin: 0.8em 0;
+}
+.image-view[data-align="center"] { text-align: center; }
+.image-view[data-align="right"] { text-align: right; }
+.image-view .image-frame {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}
+.image-view.is-selected .image-frame {
+  outline: 2px solid rgb(var(--pd-accent-rgb));
+  outline-offset: 2px;
+}
+.image-view .image-handle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: #fff;
+  border: 2px solid rgb(var(--pd-accent-rgb));
+  bottom: -7px;
+  cursor: nwse-resize;
+  z-index: 3;
+}
+.image-view .image-handle.right { right: -7px; }
+.image-view .image-handle.left { left: -7px; cursor: nesw-resize; }
+
+/* Collaboration-free drop cursor */
+.pluto-editor .ProseMirror .is-dragging {
+  opacity: 0.5;
+}
+
+/* ------------------------------------------------------------------ print / PDF */
+@media print {
+  html,
+  body {
+    background: #fff !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+  #root {
+    display: none !important;
+  }
+  #print-root {
+    display: block !important;
+  }
+  #print-root .pluto-doc {
+    --pd-ink: #1f2026;
+    --pd-paper: #fff;
+    color: #1f2026;
+  }
+  #print-root .image-handle,
+  #print-root .callout-type-button {
+    display: none !important;
+  }
+  #print-root .image-view .image-frame {
+    outline: none !important;
+  }
+  #print-root .page-break {
+    border: none !important;
+    height: 0;
+    margin: 0;
+  }
+  #print-root .page-break::after {
+    display: none;
+  }
+  #print-root h1,
+  #print-root h2,
+  #print-root h3,
+  #print-root h4 {
+    break-after: avoid;
+  }
+  #print-root pre,
+  #print-root blockquote,
+  #print-root .callout,
+  #print-root tr,
+  #print-root img {
+    break-inside: avoid;
+  }
+  #print-root .search-match,
+  #print-root .search-match-current {
+    background: none !important;
+    box-shadow: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
+}
+
+/* Callout type colours used in menus */
+.callout-swatch-info { color: rgb(59 130 246); }
+.callout-swatch-success { color: rgb(22 163 74); }
+.callout-swatch-warning { color: rgb(217 119 6); }
+.callout-swatch-danger { color: rgb(220 38 38); }
+.callout-swatch-note { color: rgb(124 58 237); }

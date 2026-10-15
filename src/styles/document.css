@@ -1,0 +1,226 @@
+/* ------------------------------------------------------------------ document
+   Shared by the editor page, the print/PDF container and exported HTML. */
+.pluto-doc {
+  --doc-font: Calibri, Carlito, "Segoe UI", sans-serif;
+  --doc-size: 11pt;
+  font-family: var(--doc-font);
+  font-size: var(--doc-size);
+  line-height: 1.5;
+  color: var(--pd-ink);
+  overflow-wrap: break-word;
+  user-select: text;
+}
+.pluto-doc > * + * {
+  margin-top: 0.6em;
+}
+.pluto-doc p {
+  margin: 0;
+}
+.pluto-doc p + p {
+  margin-top: 0.55em;
+}
+.pluto-doc h1,
+.pluto-doc h2,
+.pluto-doc h3,
+.pluto-doc h4,
+.pluto-doc h5,
+.pluto-doc h6 {
+  line-height: 1.25;
+  font-weight: 600;
+  margin: 1.1em 0 0.35em;
+  letter-spacing: -0.01em;
+}
+.pluto-doc > :first-child {
+  margin-top: 0;
+}
+.pluto-doc h1 { font-size: 2em; color: color-mix(in srgb, var(--pd-ink) 82%, rgb(var(--pd-accent-rgb))); }
+.pluto-doc h2 { font-size: 1.55em; color: color-mix(in srgb, var(--pd-ink) 82%, rgb(var(--pd-accent-rgb))); }
+.pluto-doc h3 { font-size: 1.3em; }
+.pluto-doc h4 { font-size: 1.12em; }
+.pluto-doc h5 { font-size: 1em; }
+.pluto-doc h6 { font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.04em; color: color-mix(in srgb, var(--pd-ink) 70%, transparent); }
+
+.pluto-doc a {
+  color: rgb(var(--pd-accent-rgb));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.paper-dark .pluto-doc a {
+  color: var(--pd-accent);
+}
+.pluto-doc mark {
+  background-color: #fde68a;
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 1px;
+  box-decoration-break: clone;
+}
+.pluto-doc code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: rgba(127, 127, 127, 0.14);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+.pluto-doc ul,
+.pluto-doc ol {
+  padding-left: 1.6em;
+  margin: 0.5em 0;
+}
+.pluto-doc ul { list-style: disc; }
+.pluto-doc ul ul { list-style: circle; }
+.pluto-doc ul ul ul { list-style: square; }
+.pluto-doc ol { list-style: decimal; }
+.pluto-doc ol ol { list-style: lower-alpha; }
+.pluto-doc ol ol ol { list-style: lower-roman; }
+.pluto-doc li > p { margin: 0; }
+.pluto-doc li + li { margin-top: 0.2em; }
+.pluto-doc li::marker { color: color-mix(in srgb, var(--pd-ink) 70%, rgb(var(--pd-accent-rgb))); }
+
+.pluto-doc ul[data-type="taskList"] {
+  list-style: none;
+  padding-left: 0.2em;
+}
+.pluto-doc ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55em;
+}
+.pluto-doc ul[data-type="taskList"] li > label {
+  flex: none;
+  user-select: none;
+  margin-top: 0.22em;
+}
+.pluto-doc ul[data-type="taskList"] li > div {
+  flex: 1;
+  min-width: 0;
+}
+.pluto-doc ul[data-type="taskList"] input[type="checkbox"] {
+  width: 1.05em;
+  height: 1.05em;
+  accent-color: rgb(var(--pd-accent-rgb));
+  cursor: pointer;
+}
+.pluto-doc ul[data-type="taskList"] li[data-checked="true"] > div {
+  color: color-mix(in srgb, var(--pd-ink) 50%, transparent);
+  text-decoration: line-through;
+}
+
+.pluto-doc blockquote {
+  margin: 0.8em 0;
+  padding: 0.2em 0 0.2em 1em;
+  border-left: 3px solid rgb(var(--pd-accent-rgb) / 0.55);
+  color: color-mix(in srgb, var(--pd-ink) 78%, transparent);
+  font-style: italic;
+}
+
+.pluto-doc pre {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  line-height: 1.55;
+  background: #1e1f29;
+  color: #e4e6f1;
+  border-radius: 8px;
+  padding: 0.9em 1.1em;
+  margin: 0.8em 0;
+  overflow-x: auto;
+  white-space: pre;
+}
+.pluto-doc pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}
+/* highlight.js token colours (code blocks are always dark). */
+.pluto-doc .hljs-comment, .pluto-doc .hljs-quote { color: #7d8299; font-style: italic; }
+.pluto-doc .hljs-keyword, .pluto-doc .hljs-selector-tag, .pluto-doc .hljs-literal { color: #c792ea; }
+.pluto-doc .hljs-string, .pluto-doc .hljs-regexp, .pluto-doc .hljs-addition { color: #a5d6a7; }
+.pluto-doc .hljs-number, .pluto-doc .hljs-symbol, .pluto-doc .hljs-bullet { color: #f78c6c; }
+.pluto-doc .hljs-title, .pluto-doc .hljs-section, .pluto-doc .hljs-title.function_ { color: #82aaff; }
+.pluto-doc .hljs-attr, .pluto-doc .hljs-attribute, .pluto-doc .hljs-variable, .pluto-doc .hljs-template-variable { color: #ffcb6b; }
+.pluto-doc .hljs-type, .pluto-doc .hljs-built_in, .pluto-doc .hljs-class .hljs-title { color: #89ddff; }
+.pluto-doc .hljs-meta, .pluto-doc .hljs-tag, .pluto-doc .hljs-name { color: #89ddff; }
+.pluto-doc .hljs-deletion { color: #ff8a8a; }
+.pluto-doc .hljs-emphasis { font-style: italic; }
+.pluto-doc .hljs-strong { font-weight: 700; }
+
+.pluto-doc hr {
+  border: none;
+  border-top: 1px solid color-mix(in srgb, var(--pd-ink) 18%, transparent);
+  margin: 1.4em 0;
+}
+
+.pluto-doc img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 2px;
+}
+.pluto-doc img[data-align="center"] { display: block; margin-left: auto; margin-right: auto; }
+.pluto-doc img[data-align="right"] { display: block; margin-left: auto; }
+
+.pluto-doc table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+  margin: 0.9em 0;
+  overflow: hidden;
+}
+.pluto-doc td,
+.pluto-doc th {
+  border: 1px solid color-mix(in srgb, var(--pd-ink) 22%, transparent);
+  padding: 0.35em 0.6em;
+  vertical-align: top;
+  box-sizing: border-box;
+  position: relative;
+  min-width: 2em;
+}
+.pluto-doc th {
+  font-weight: 600;
+  text-align: left;
+  background: color-mix(in srgb, rgb(var(--pd-accent-rgb)) 9%, transparent);
+}
+.pluto-doc td > p,
+.pluto-doc th > p {
+  margin: 0;
+}
+
+/* Callout / info boxes */
+.pluto-doc .callout {
+  --callout: 59 130 246;
+  display: flex;
+  gap: 0.7em;
+  margin: 0.9em 0;
+  padding: 0.75em 1em;
+  border-radius: 8px;
+  border: 1px solid rgb(var(--callout) / 0.3);
+  border-left: 4px solid rgb(var(--callout));
+  background: rgb(var(--callout) / 0.09);
+}
+.pluto-doc .callout-info { --callout: 59 130 246; }
+.pluto-doc .callout-success { --callout: 22 163 74; }
+.pluto-doc .callout-warning { --callout: 217 119 6; }
+.pluto-doc .callout-danger { --callout: 220 38 38; }
+.pluto-doc .callout-note { --callout: 124 58 237; }
+.pluto-doc .callout-content {
+  flex: 1;
+  min-width: 0;
+}
+.pluto-doc .callout-icon {
+  flex: none;
+  color: rgb(var(--callout));
+  margin-top: 0.15em;
+}
+/* Exported HTML has no node view, so the box contents sit directly inside. */
+.pluto-doc div.callout:not(:has(.callout-content)) {
+  display: block;
+}
+
+.pluto-doc .page-break {
+  position: relative;
+  height: 1.6em;
+  margin: 1em 0;
+  border: none;
+  break-after: page;
+}
