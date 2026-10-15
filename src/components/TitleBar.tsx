@@ -3,7 +3,7 @@ import { clsx } from "clsx";
 import { Loader2, Monitor, Moon, Redo2, Save, Search, Sun, Undo2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { saveDocument } from "@/lib/documents";
-import { inTauri, platform } from "@/lib/platform";
+import { inTauri, platform, screenshotScene } from "@/lib/platform";
 import type { Theme } from "@/lib/types";
 import { isDirty, useApp } from "@/store/app";
 import { Switch } from "./ui";
@@ -15,6 +15,7 @@ function WindowControls() {
   const [maximized, setMaximized] = useState(false);
 
   useEffect(() => {
+    if (!inTauri) return;
     let unlisten: (() => void) | undefined;
     void (async () => {
       const { getCurrentWindow } = await import("@tauri-apps/api/window");
@@ -162,7 +163,7 @@ export function TitleBar({ editor }: { editor: Editor | null }) {
           PlutoDocs
         </span>
         {portable && <span className="rounded-full bg-accent-soft px-2 py-0.5 text-[10.5px] font-semibold text-accent">Portable</span>}
-        {!inTauri && <span className="rounded-full bg-accent-soft px-2 py-0.5 text-[10.5px] font-semibold text-accent">Browser preview</span>}
+        {!inTauri && !screenshotScene && <span className="rounded-full bg-accent-soft px-2 py-0.5 text-[10.5px] font-semibold text-accent">Browser preview</span>}
       </div>
 
       <div
@@ -186,7 +187,7 @@ export function TitleBar({ editor }: { editor: Editor | null }) {
         <span className="ml-auto text-[11px]">Ctrl+F</span>
       </button>
       <ThemeSwitcher />
-      {inTauri ? <WindowControls /> : <div className="w-1" />}
+      {inTauri || screenshotScene ? <WindowControls /> : <div className="w-1" />}
     </header>
   );
 }

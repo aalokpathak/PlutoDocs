@@ -412,3 +412,11 @@ textarea,
 .callout-swatch-warning { color: rgb(217 119 6); }
 .callout-swatch-danger { color: rgb(220 38 38); }
 .callout-swatch-note { color: rgb(124 58 237); }
+
+/* Dev screenshot mode (src/dev/screenshots.ts): capture final states, not transitions. */
+.shot *,
+.shot *::before,
+.shot *::after {
+  transition: none !important;
+  animation: none !important;
+}

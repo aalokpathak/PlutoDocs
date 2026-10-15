@@ -1,0 +1,4 @@
+3e3ee2a0d73ae3cd34bbfafec85aeb4ef86d60d826e7b91042baf1d600a56d64  PlutoDocs_0.1.0_x64-setup.exe
+f8bd04954318584bc55fa859fa7ea0218c59e8488251bd72f24b394fd931e64b  PlutoDocs_0.1.0_x64_en-US.msi
+806e3e571809ae0afacc1a789aa74b3cc0032dc151c76e664200d8e187955d9a  PlutoDocs_0.1.0_x64_portable.exe
+6b1b958dfd68ff27cdf8d73e036c8494b2ca4500910337068130e196c1fa895b  PlutoDocs_0.1.0_x64_portable.zip

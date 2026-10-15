@@ -1,0 +1,48 @@
+# Publishes the files committed under release/ as a GitHub Release tagged v<version>.
+# Build them locally with `npm run release`, commit release/, push, and this runs.
+name: Release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "release/VERSION"
+      - "release/*.exe"
+      - "release/*.msi"
+      - "release/*.zip"
+      - "release/RELEASE_NOTES.md"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          version="$(tr -d '[:space:]' < release/VERSION)"
+          tag="v${version}"
+          shopt -s nullglob
+          files=(release/*.exe release/*.msi release/*.zip release/SHA256SUMS.txt)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No release files found in release/"; exit 1
+          fi
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "Updating existing release $tag"
+            gh release upload "$tag" "${files[@]}" --clobber
+            gh release edit "$tag" --title "PlutoDocs ${version}" --notes-file release/RELEASE_NOTES.md --latest
+          else
+            echo "Creating release $tag"
+            gh release create "$tag" "${files[@]}" \
+              --title "PlutoDocs ${version}" \
+              --notes-file release/RELEASE_NOTES.md \
+              --target "$GITHUB_SHA" \
+              --latest
+          fi

@@ -1,7 +1,44 @@
-# PlutoDocs
+<p align="center">
+  <img src="app-icon.svg" width="96" height="96" alt="PlutoDocs logo">
+</p>
 
-A modern rich-text document processor from the **Pluto** software suite, built with
-Tauri v2, React 19, TypeScript, Tailwind CSS v4 and Tiptap 3.
+<h1 align="center">PlutoDocs</h1>
+
+<p align="center">
+  A modern rich-text document processor for Windows, part of the <strong>Pluto</strong> software suite.<br>
+  Built with Tauri v2, React 19, TypeScript, Tailwind CSS v4 and Tiptap 3.
+</p>
+
+<p align="center">
+  <a href="https://github.com/aalokpathak/PlutoDocs/releases/latest"><strong>⬇ Download the latest release</strong></a>
+</p>
+
+![PlutoDocs with the Templates panel and a project proposal open](docs/screenshots/hero.png)
+
+## Screenshots
+
+| | |
+| --- | --- |
+| ![Dark theme with the document outline](docs/screenshots/dark.png) | ![Contextual Table Design tab](docs/screenshots/table.png) |
+| **Dark theme** with the navigation outline | **Table Design** tab appears when the cursor is in a table |
+| ![Find and replace with highlighted matches](docs/screenshots/find.png) | ![Version history panel](docs/screenshots/history.png) |
+| **Find & replace** with live match highlighting | **Version history**: restore any earlier snapshot |
+
+![Distraction-free focus mode](docs/screenshots/focus.png)
+<p align="center"><em>Focus mode hides everything but the page.</em></p>
+
+## Download
+
+Grab the latest build from [**Releases**](https://github.com/aalokpathak/PlutoDocs/releases/latest):
+
+- **`PlutoDocs_x.y.z_x64-setup.exe`**: the standard installer (recommended)
+- **`PlutoDocs_x.y.z_x64_en-US.msi`**: for Group Policy / Intune deployment
+- **`PlutoDocs_x.y.z_x64_portable.exe`**: runs without installing; keeps its data next to the exe
+
+The builds aren't code-signed yet, so Windows SmartScreen may warn on first launch. Choose
+**More info → Run anyway**.
+
+## Features
 
 - **Windows 11 Fluent UI**: frameless window with native caption buttons, Mica backdrop,
   light/dark/system themes, accent colours, and a ribbon with a contextual *Table Design* tab.
@@ -44,6 +81,21 @@ which gathers everything into `release/`:
 | `PlutoDocs_<v>_x64_portable.exe` | Portable build: runs without installation |
 | `PlutoDocs_<v>_x64_portable.zip` | The portable exe plus its `portable` marker file |
 | `SHA256SUMS.txt` | Checksums |
+| `RELEASE_NOTES.md` | Body of the GitHub Release |
+
+### Publishing a GitHub Release
+
+`release/` is committed to the repository. When a push to `main` changes it,
+[`.github/workflows/release.yml`](.github/workflows/release.yml) publishes the files as a GitHub
+Release tagged `v<version>`, or updates that release if the tag already exists. To ship a new version:
+
+1. Bump `version` in `src-tauri/tauri.conf.json` (and `package.json` / `Cargo.toml` to match).
+2. Run `npm run release`.
+3. Commit `release/` and push.
+
+You can also re-run it manually from the repository's **Actions** tab (*Release → Run workflow*).
+
+### How the packages are made
 
 The installers come from `bundle.targets` (`nsis`, `msi`) in
 [`src-tauri/tauri.conf.json`](src-tauri/tauri.conf.json), which also registers `.pluto` files to open
@@ -55,6 +107,10 @@ frontend assets are embedded and WebView2 ships with Windows. So the portable bu
 the WebView2 profile) then lives in a `PlutoDocs Data` folder beside the exe instead of `%APPDATA%`.
 
 To regenerate icons from `app-icon.svg`: `npm run app:icons`.
+
+To regenerate the README screenshots: `npm run screenshots` (needs Google Chrome or Microsoft Edge).
+It starts the dev server and captures each scene from [`src/dev/screenshots.ts`](src/dev/screenshots.ts)
+with a headless browser into `docs/screenshots/`.
 
 ## Project layout
 

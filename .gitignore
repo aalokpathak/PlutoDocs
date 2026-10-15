@@ -1,6 +1,6 @@
 node_modules
 dist
-release
+# release/ is committed: pushing it publishes a GitHub Release (.github/workflows/release.yml)
 src-tauri/target
 src-tauri/gen/schemas
 *.log

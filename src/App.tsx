@@ -15,7 +15,7 @@ import { useAutosave } from "@/lib/autosave";
 import { openDocument, openDroppedFile, requestClose } from "@/lib/documents";
 import { formatFromPath } from "@/lib/formats";
 import { openExternal } from "@/lib/links";
-import { inTauri, platform } from "@/lib/platform";
+import { inTauri, platform, screenshotScene } from "@/lib/platform";
 import { useShortcuts } from "@/lib/shortcuts";
 import { isDirty, useApp } from "@/store/app";
 
@@ -87,6 +87,10 @@ export function App() {
       const app = useApp.getState();
       await app.init();
       if (cancelled) return;
+      if (screenshotScene) {
+        const { stageScene } = await import("@/dev/screenshots");
+        return stageScene(screenshotScene);
+      }
       const selftestDir = useApp.getState().appInfo?.selftestDir;
       if (selftestDir) {
         const { runSelfTest } = await import("@/lib/selftest");

@@ -76,5 +76,32 @@ const sums = files.map((f) => `${createHash("sha256").update(readFileSync(join(o
 writeFileSync(join(out, "SHA256SUMS.txt"), sums.join("\n") + "\n");
 writeFileSync(join(out, "VERSION"), version);
 
+// Body of the GitHub Release created by .github/workflows/release.yml.
+const mb = (f) => `${(statSync(join(out, f)).size / 1048576).toFixed(1)} MB`;
+const notes = `## PlutoDocs ${version}
+
+A modern rich-text document processor for Windows, part of the Pluto software suite.
+
+### Downloads
+
+| File | Use it when | Size |
+| --- | --- | --- |
+| \`${base}-setup.exe\` | **Recommended.** Standard installer with Start menu shortcut and \`.pluto\` file association | ${mb(`${base}-setup.exe`)} |
+| \`${base}_en-US.msi\` | Deploying with Group Policy, Intune or other MSI tooling | ${mb(`${base}_en-US.msi`)} |
+| \`${base}_portable.exe\` | Running without installing (keeps its data in a \`PlutoDocs Data\` folder next to the exe) | ${mb(`${base}_portable.exe`)} |
+| \`${base}_portable.zip\` | Same portable build, zipped with its \`portable\` marker file for USB drives | ${mb(`${base}_portable.zip`)} |
+
+Requires Windows 10 or 11 (64-bit) with the Microsoft Edge WebView2 runtime, which is built into Windows 11. The installers set it up automatically if it is missing.
+
+> The binaries are not code-signed yet, so Windows SmartScreen may show "Windows protected your PC". Choose **More info → Run anyway**.
+
+### SHA-256 checksums
+
+\`\`\`
+${sums.join("\n")}
+\`\`\`
+`;
+writeFileSync(join(out, "RELEASE_NOTES.md"), notes);
+
 console.log(`\n${productName} v${version} release files in ${out}`);
 for (const f of files) console.log(`  ${f.padEnd(44)} ${(statSync(join(out, f)).size / 1048576).toFixed(2).padStart(7)} MB`);

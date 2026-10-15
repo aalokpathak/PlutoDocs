@@ -7,6 +7,9 @@ import type { DocFormat } from "@/lib/types";
 
 export const inTauri = typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
 
+/** Dev only: `?shot=<scene>` stages a README screenshot (see scripts/screenshots.mjs). */
+export const screenshotScene = import.meta.env.DEV ? new URLSearchParams(location.search).get("shot") : null;
+
 export interface AppInfo {
   version: string;
   portable: boolean;

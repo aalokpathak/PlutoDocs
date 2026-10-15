@@ -14,7 +14,8 @@
     "app:build": "tauri build",
     "app:icons": "tauri icon app-icon.svg -o src-tauri/icons",
     "release": "tauri build && node scripts/collect-release.mjs",
-    "release:collect": "node scripts/collect-release.mjs"
+    "release:collect": "node scripts/collect-release.mjs",
+    "screenshots": "node scripts/screenshots.mjs"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.8.0",
